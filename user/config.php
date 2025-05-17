@@ -1,31 +1,35 @@
 <?php
 /*
  ** YOURLS Configuration file.
- ** See https://yourls.org/config for full options.
+ ** https://yourls.org/
  */
 
-// --- DATABASE SETTINGS ---
-define( 'YOURLS_DB_USER', getenv('DB_USER') ?: 'yourls_user' );
-define( 'YOURLS_DB_PASS', getenv('DB_PASS') ?: 'yourls_pass' );
-define( 'YOURLS_DB_NAME', getenv('DB_NAME') ?: 'yourls_db' );
-define( 'YOURLS_DB_HOST', getenv('DB_HOST') ?: 'localhost' );
-define( 'YOURLS_DB_PREFIX', getenv('DB_PREFIX') ?: 'yourls_' );
+// ** MySQL settings ** //
+define( 'YOURLS_DB_USER', 'sql7779025' );
+define( 'YOURLS_DB_PASS', 'ZqCTjHs2aQ' );
+define( 'YOURLS_DB_NAME', 'sql7779025' );
+define( 'YOURLS_DB_HOST', 'sql7.freesqldatabase.com' );
+define( 'YOURLS_DB_PREFIX', 'yourls_' );
 
-// --- SITE OPTIONS ---
-define( 'YOURLS_SITE', getenv('YOURLS_SITE_URL') ?: 'https://your-custom-url.com' );
-define( 'YOURLS_HOURS_OFFSET', getenv('YOURLS_HOURS_OFFSET') ?: 0 );
-define( 'YOURLS_LANG', getenv('YOURLS_LANG') ?: '' );
-define( 'YOURLS_UNIQUE_URLS', (getenv('YOURLS_UNIQUE_URLS') === 'false' ? false : true) );
-define( 'YOURLS_PRIVATE', (getenv('YOURLS_PRIVATE') === 'false' ? false : true) );
-define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'change_this_to_a_random_secure_key' );
+// ** Site options ** //
+define( 'YOURLS_SITE', 'https://yourls-fresh-deploy.onrender.com' );
+define( 'YOURLS_HOURS_OFFSET', 0 );
+define( 'YOURLS_LANG', 'en' );
+define( 'YOURLS_UNIQUE_URLS', true );
+define( 'YOURLS_PRIVATE', true );
 
-// --- USERS ---
-$yourls_user_passwords = [
-    getenv('YOURLS_ADMIN_USER') ?: 'admin' => getenv('YOURLS_ADMIN_PASS') ?: 'password',
-];
+// ** User authentication ** //
+$yourls_user_passwords = array(
+    'admin' => 'password',
+);
 
-// Fallback warning
-if (empty($yourls_user_passwords)) {
-    die('No YOURLS_ADMIN_USER or YOURLS_ADMIN_PASS defined!');
-}
+// ** Security keys ** //
+define( 'YOURLS_COOKIEKEY', 'xkSYyNwVqfUyKA7u4vC1nmjgMJ86v3eaDd0nFd3cR8FCXPyVDzS2RamX9jhVPGkS' );
+
+// ** Debug mode ** //
+// define( 'YOURLS_DEBUG', true );
+
+/*
+ ** All done. Have fun!
+ */
 

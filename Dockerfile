@@ -59,4 +59,5 @@ WORKDIR /var/www/html
 
 # ✅ Fix: Copy ALL verified files (including config.php) into the final image
 COPY --from=verifier /app/ /var/www/html/
+COPY config.php /var/www/html/user/config.php
 

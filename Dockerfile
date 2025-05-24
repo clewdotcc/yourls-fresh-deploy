@@ -14,7 +14,7 @@ RUN echo "STAGE 1 VERIFIER: Listing /app contents..." && \
     else \
         echo "✅ STAGE 1 SUCCESS: yourls-loader.php found."; \
     fi && \
-    if [ ! -f "/app/user/config.php" ]; then \
+if [ ! -f "/app/config.php" ]; then \
         echo "❌ STAGE 1 CRITICAL ERROR: config.php NOT FOUND in /user!" >&2; \
         exit 1; \
     else \

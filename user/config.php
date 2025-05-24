@@ -33,3 +33,6 @@ define( 'YOURLS_COOKIEKEY', 'xkSYyNwVqfUyKA7u4vC1nmjgMJ86v3eaDd0nFd3cR8FCXPyVDzS
  ** All done. Have fun!
  */
 
+// ✅ FIX: Prevent fatal error from in_array() when checking reserved keywords
+$yourls_reserved_keywords = [];
+

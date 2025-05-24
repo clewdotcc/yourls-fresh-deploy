@@ -338,3 +338,5 @@ $signature = md5( $timestamp . '<?php echo yourls_auth_signature(); ?>' );
 	<?php } // end is private ?>
 
 <?php yourls_html_footer(); ?>
+echo '<pre>$yourls_reserved_keywords = ' . var_export($yourls_reserved_keywords, true) . '</pre>';
+

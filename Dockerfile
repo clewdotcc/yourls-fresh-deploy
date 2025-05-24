@@ -9,21 +9,13 @@ RUN echo "STAGE 1 VERIFIER: Listing /app contents..." && \
     ls -la /app/ && \
     echo "STAGE 1 VERIFIER: Searching for yourls-loader.php in /app..." && \
     if [ ! -f "/app/yourls-loader.php" ]; then \
-        echo "❌ STAGE 1 CRITICAL ERROR: yourls-loader.php NOT FOUND!" >&2; \
-        exit 1; \
-    else \
-        echo "✅ STAGE 1 SUCCESS: yourls-loader.php found."; \
-    fi && \
-if [ ! -f "/app/config.php" ]; then \
-        echo "❌ STAGE 1 CRITICAL ERROR: config.php NOT FOUND in /user!" >&2; \
-        exit 1; \
-    else \
-        echo "✅ STAGE 1 SUCCESS: config.php found in /user."; \
-    fi && \
+        echo "❌ STAGE 1 ERROR: yourls-loader.php NOT FOUND!" >&2; exit 1; \
+    else echo "✅ Found yourls-loader.php"; fi && \
+    if [ ! -f "/app/config.php" ]; then \
+        echo "❌ STAGE 1 ERROR: config.php NOT FOUND in root!" >&2; exit 1; \
+    else echo "✅ Found config.php in root"; fi && \
     touch /app/VERIFIED_FILES_EXIST.txt && \
-    echo "✅ STAGE 1 VERIFICATION COMPLETE."
-# --- END CRITICAL VERIFICATION STEP ---
-
+    echo "✅ STAGE 1 VERIFICATION COMPLETE"
 
 # STAGE 2: Main Application Stage (YOURLS)
 FROM php:8.1-apache
@@ -57,7 +49,9 @@ DirectoryIndex yourls-loader.php index.php index.html\n' \
 
 WORKDIR /var/www/html
 
-# ✅ Fix: Copy ALL verified files (including config.php) into the final image
+# ✅ Copy all verified app files
 COPY --from=verifier /app/ /var/www/html/
+
+# ✅ Copy updated config.php into the YOURLS /user/ folder
 COPY config.php /var/www/html/user/config.php
 

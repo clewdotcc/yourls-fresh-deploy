@@ -52,7 +52,7 @@ RUN echo '<Directory /var/www/html>\n\
     AllowOverride All\n\
     Require all granted\n\
 </Directory>\n\
-DirectoryIndex yourls-loader.php index.html\n' \
+DirectoryIndex yourls-loader.php index.php index.html\n' \
 > /etc/apache2/conf-available/yourls.conf && a2enconf yourls
 
 WORKDIR /var/www/html

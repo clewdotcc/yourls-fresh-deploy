@@ -56,33 +56,7 @@ DirectoryIndex yourls-loader.php index.html\n' \
 > /etc/apache2/conf-available/yourls.conf && a2enconf yourls
 
 WORKDIR /var/www/html
+
+# ✅ Fix: Copy ALL verified files (including config.php) into the final image
 COPY --from=verifier /app/ /var/www/html/
 
-# --- POST-COPY VERIFICATION ---
-RUN echo "STAGE 2: Checking /var/www/html contents..." && \
-    ls -la /var/www/html && \
-    echo "📂 FULL DIRECTORY TREE:" && \
-    find /var/www/html && \
-    if [ ! -f "/var/www/html/yourls-loader.php" ]; then \
-        echo "❌ STAGE 2 CRITICAL ERROR: yourls-loader.php NOT FOUND!" >&2; \
-        exit 1; \
-    else \
-        echo "✅ STAGE 2 SUCCESS: yourls-loader.php present."; \
-    fi && \
-    if [ ! -f "/var/www/html/user/config.php" ]; then \
-        echo "❌ STAGE 2 CRITICAL ERROR: config.php NOT FOUND in /user!" >&2; \
-        exit 1; \
-    else \
-        echo "✅ STAGE 2 SUCCESS: config.php present."; \
-        echo "🔍 Showing contents of config.php:" && \
-        echo "----------------------------------" && \
-        cat /var/www/html/user/config.php || echo "⚠️ Failed to read config.php"; \
-    fi
-# --- END VERIFICATION ---
-
-# Fix permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    find /var/www/html -type d -exec chmod 755 {} \; && \
-    find /var/www/html -type f -exec chmod 644 {} \;
-
-# Apache default CMD inherited

@@ -213,35 +213,52 @@ function yourls_is_shorturl( $shorturl ) {
  * @param  string $keyword   Short URL keyword
  * @return bool              True if keyword reserved, false if free to be used
  */
-function yourls_keyword_is_reserved( $keyword ) {
-    global $yourls_reserved_URL;
-    $keyword = yourls_sanitize_keyword( $keyword );
-    $reserved = false;
+function yourls_keyword_is_reserved( $keyword ) {// This is line 216: function yourls_keyword_is_reserved( $keyword ) {
+	global $yourls_reserved_URL, $yourls_reserved_keywords; // Make sure both are global
 
-    // --- YOURLS DEBUG: functions-shorturls.php ---
-error_log('[DEBUG functions-shorturls.php] About to call in_array with $yourls_reserved_keywords.');
-error_log('[DEBUG functions-shorturls.php] Value of $keyword: ' . $keyword); // See what keyword is being checked
-error_log('[DEBUG functions-shorturls.php] Value of $yourls_reserved_keywords is: ' . print_r($yourls_reserved_keywords, true));
-if (is_array($yourls_reserved_keywords)) {
-    error_log('[DEBUG functions-shorturls.php] PHP says $yourls_reserved_keywords IS an array.');
-} else {
-    error_log('[DEBUG functions-shorturls.php] PHP says $yourls_reserved_keywords IS NOT an array. Type: ' . gettype($yourls_reserved_keywords));
-}
-// --- END YOURLS DEBUG ---
+	$keyword = yourls_sanitize_keyword( $keyword );
+	$reserved = false;
 
-// This should be your original line (around 221):
-if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
-    // ... rest of the original code ...
-    
-    if ( in_array( $keyword, $yourls_reserved_URL)
-        or yourls_is_page($keyword)
-        or is_dir( YOURLS_ABSPATH ."/$keyword" )
-    )
-        $reserved = true;
+	error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Checking keyword '$keyword'");
 
-    return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
-}
+	// --- DEBUGGING $yourls_reserved_keywords ---
+	if (isset($yourls_reserved_keywords)) {
+		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS SET. Value: " . print_r($yourls_reserved_keywords, true));
+		if (is_array($yourls_reserved_keywords)) {
+			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS an array.");
+			// Original YOURLS logic for $yourls_reserved_keywords:
+			if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
+				error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' FOUND in \$yourls_reserved_keywords array.");
+				$reserved = true;
+			} else {
+				error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' NOT FOUND in \$yourls_reserved_keywords array.");
+			}
+		} else {
+			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS NOT an array. Type: " . gettype($yourls_reserved_keywords));
+		}
+	} else {
+		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS NOT SET AT ALL.");
+	}
+	// --- END DEBUGGING $yourls_reserved_keywords ---
 
+	// Original YOURLS logic for other reserved conditions:
+	// Only check these if not already found in $yourls_reserved_keywords by our logic above
+	if ( !$reserved ) {
+		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' not in array, checking other conditions.");
+		if ( in_array( $keyword, $yourls_reserved_URL)
+			or yourls_is_page( $keyword )
+			or is_dir( YOURLS_ABSPATH ."/$keyword" )
+		) {
+			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' FOUND by other conditions (URL, page, dir).");
+			$reserved = true;
+		} else {
+			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' NOT FOUND by other conditions either.");
+		}
+	}
+
+	error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Final \$reserved value for '$keyword' is: " . ($reserved ? 'true' : 'false'));
+	return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
+// This is the closing brace for the function: }
 /**
  * Delete a link in the DB
  *

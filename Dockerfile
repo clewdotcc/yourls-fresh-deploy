@@ -52,10 +52,6 @@ WORKDIR /var/www/html
 # ✅ Copy all verified app files
 COPY --from=verifier /app/ /var/www/html/
 
-# ✅ Copy updated config.php into the YOURLS /user/ folder
-COPY config.php /var/www/html/user/config.php
-
-
 
 
 

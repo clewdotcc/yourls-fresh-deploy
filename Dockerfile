@@ -53,5 +53,5 @@ WORKDIR /var/www/html
 COPY --from=verifier /app/ /var/www/html/
 
 # ✅ Copy updated config.php into the YOURLS /user/ folder
-COPY config.php /var/www/html/user/config.php
+COPY user/config.php /var/www/html/user/config.php
 

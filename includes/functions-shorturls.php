@@ -218,6 +218,21 @@ function yourls_keyword_is_reserved( $keyword ) {
     $keyword = yourls_sanitize_keyword( $keyword );
     $reserved = false;
 
+    // --- YOURLS DEBUG: functions-shorturls.php ---
+error_log('[DEBUG functions-shorturls.php] About to call in_array with $yourls_reserved_keywords.');
+error_log('[DEBUG functions-shorturls.php] Value of $keyword: ' . $keyword); // See what keyword is being checked
+error_log('[DEBUG functions-shorturls.php] Value of $yourls_reserved_keywords is: ' . print_r($yourls_reserved_keywords, true));
+if (is_array($yourls_reserved_keywords)) {
+    error_log('[DEBUG functions-shorturls.php] PHP says $yourls_reserved_keywords IS an array.');
+} else {
+    error_log('[DEBUG functions-shorturls.php] PHP says $yourls_reserved_keywords IS NOT an array. Type: ' . gettype($yourls_reserved_keywords));
+}
+// --- END YOURLS DEBUG ---
+
+// This should be your original line (around 221):
+if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
+    // ... rest of the original code ...
+    
     if ( in_array( $keyword, $yourls_reserved_URL)
         or yourls_is_page($keyword)
         or is_dir( YOURLS_ABSPATH ."/$keyword" )

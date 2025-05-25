@@ -1,3 +1,6 @@
+// FORCE_REDEPLOY_TRIGGER: LICM_999
+
+
 <?php
 /*
  ** YOURLS Configuration file.
@@ -29,5 +32,5 @@ define( 'YOURLS_COOKIEKEY', 'xkSYyNwVqfUyKA7u4vC1nmjgMJ86v3eaDd0nFd3cR8FCXPyVDzS
 // ✅ FIX: Prevent fatal in_array() error
 $yourls_reserved_keywords = [];
 
-// force redeploy trigger: LICM_fix_003
+// FORCE_REDEPLOY_TRIGGER: LICM_999
 

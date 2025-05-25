@@ -213,7 +213,7 @@ function yourls_is_shorturl( $shorturl ) {
  * @param  string $keyword   Short URL keyword
  * @return bool              True if keyword reserved, false if free to be used
  */
-function yourls_keyword_is_reserved( $keyword ) {// This is line 216: function yourls_keyword_is_reserved( $keyword ) {
+function yourls_keyword_is_reserved( $keyword ) {
 	global $yourls_reserved_URL, $yourls_reserved_keywords; // Make sure both are global
 
 	$keyword = yourls_sanitize_keyword( $keyword );

@@ -18,9 +18,19 @@ if (!defined('YOURLS_CONFIGFILE')) {
     define('YOURLS_CONFIGFILE', $config->find_config());
 }
 require_once YOURLS_CONFIGFILE;
+
+// --- OUR DEBUG LOG AFTER CONFIG LOAD ---
+error_log("DEBUG LOAD-YOURLS.PHP (Line " . __LINE__ . "): AFTER including user/config.php (YOURLS_CONFIGFILE). Checking \$yourls_reserved_keywords. Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
+// --- END DEBUG LOG ---
+
 $config->define_core_constants();
 
 // Initialize YOURLS with default behaviors
 
 $init_defaults = new \YOURLS\Config\InitDefaults;
+
+// --- OUR DEBUG LOG BEFORE YOURLS\Config\Init ---
+error_log("DEBUG LOAD-YOURLS.PHP (Line " . __LINE__ . "): BEFORE new \\YOURLS\\Config\\Init. Checking \$yourls_reserved_keywords. Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
+// --- END DEBUG LOG ---
+
 new \YOURLS\Config\Init($init_defaults);

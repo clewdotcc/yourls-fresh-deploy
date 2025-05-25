@@ -210,7 +210,7 @@ function yourls_is_shorturl( $shorturl ) {
 /**
  * Test function for keyword reservation.
  */
-funcion yourls_keyword_is_reserved( $keyword ) {
+function yourls_keyword_is_reserved( $keyword ) {
     // Intentionally minimal to test parsing
     error_log("MINIMAL_DEBUG: yourls_keyword_is_reserved called with keyword: " . $keyword);
     return false; // Always return false for this test

@@ -208,58 +208,25 @@ function yourls_is_shorturl( $shorturl ) {
 }
 
 /**
- * Test function for keyword reservation.
+ * Check to see if a given keyword is reserved (ie reserved URL or an existing page). Returns bool
+ *
+ * @param  string $keyword   Short URL keyword
+ * @return bool              True if keyword reserved, false if free to be used
  */
 function yourls_keyword_is_reserved( $keyword ) {
-    // Intentionally minimal to test parsing
-    error_log("MINIMAL_DEBUG: yourls_keyword_is_reserved called with keyword: " . $keyword);
-    return false; // Always return false for this test
+    global $yourls_reserved_URL;
+    $keyword = yourls_sanitize_keyword( $keyword );
+    $reserved = false;
+
+    if ( in_array( $keyword, $yourls_reserved_URL)
+        or yourls_is_page($keyword)
+        or is_dir( YOURLS_ABSPATH ."/$keyword" )
+    )
+        $reserved = true;
+
+    return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
 }
-	global $yourls_reserved_URL, $yourls_reserved_keywords; // Make sure both are global
 
-	$keyword = yourls_sanitize_keyword( $keyword );
-	$reserved = false;
-
-	error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Checking keyword '$keyword'");
-
-	// --- DEBUGGING $yourls_reserved_keywords ---
-	if (isset($yourls_reserved_keywords)) {
-		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS SET. Value: " . print_r($yourls_reserved_keywords, true));
-		if (is_array($yourls_reserved_keywords)) {
-			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS an array.");
-			// Original YOURLS logic for $yourls_reserved_keywords:
-			if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
-				error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' FOUND in \$yourls_reserved_keywords array.");
-				$reserved = true;
-			} else {
-				error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' NOT FOUND in \$yourls_reserved_keywords array.");
-			}
-		} else {
-			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS NOT an array. Type: " . gettype($yourls_reserved_keywords));
-		}
-	} else {
-		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): \$yourls_reserved_keywords IS NOT SET AT ALL.");
-	}
-	// --- END DEBUGGING $yourls_reserved_keywords ---
-
-	// Original YOURLS logic for other reserved conditions:
-	// Only check these if not already found in $yourls_reserved_keywords by our logic above
-	if ( !$reserved ) {
-		error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' not in array, checking other conditions.");
-		if ( in_array( $keyword, $yourls_reserved_URL)
-			or yourls_is_page( $keyword )
-			or is_dir( YOURLS_ABSPATH ."/$keyword" )
-		) {
-			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' FOUND by other conditions (URL, page, dir).");
-			$reserved = true;
-		} else {
-			error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Keyword '$keyword' NOT FOUND by other conditions either.");
-		}
-	}
-
-	error_log("DEBUG YOURLS_KEYWORD_IS_RESERVED (Line " . __LINE__ . "): Final \$reserved value for '$keyword' is: " . ($reserved ? 'true' : 'false'));
-	return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
-// This is the closing brace for the function: }
 /**
  * Delete a link in the DB
  *

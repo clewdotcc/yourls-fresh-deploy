@@ -188,9 +188,11 @@ class Init {
      * @return void
      */
     public function include_core_functions() {
+        error_log("DEBUG Init.php - include_core_functions() START. Checking \$GLOBALS['yourls_reserved_keywords']. Value: " . (isset($GLOBALS['yourls_reserved_keywords']) ? print_r($GLOBALS['yourls_reserved_keywords'], true) : 'NOT SET via GLOBALS') . ". Type: " . (isset($GLOBALS['yourls_reserved_keywords']) ? gettype($GLOBALS['yourls_reserved_keywords']) : 'N/A'));
         require_once YOURLS_INC.'/version.php';
         require_once YOURLS_INC.'/functions.php';
         require_once YOURLS_INC.'/functions-geo.php';
+        error_log("DEBUG Init.php - BEFORE functions-shorturls.php include. Checking \$GLOBALS['yourls_reserved_keywords']. Value: " . (isset($GLOBALS['yourls_reserved_keywords']) ? print_r($GLOBALS['yourls_reserved_keywords'], true) : 'NOT SET via GLOBALS'));
         require_once YOURLS_INC.'/functions-shorturls.php';
         require_once YOURLS_INC.'/functions-debug.php';
         require_once YOURLS_INC.'/functions-options.php';

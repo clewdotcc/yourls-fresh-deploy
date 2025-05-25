@@ -32,5 +32,5 @@ define( 'YOURLS_COOKIEKEY', 'xkSYyNwVqfUyKA7u4vC1nmjgMJ86v3eaDd0nFd3cR8FCXPyVDzS
 // ✅ FIX: Prevent fatal in_array() error
 $yourls_reserved_keywords = [];
 
-// FORCE_REDEPLOY_TRIGGER: LICM_999
+// FORCE_REDEPLOY_TRIGGER: LICM_989
 

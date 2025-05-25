@@ -208,12 +208,13 @@ function yourls_is_shorturl( $shorturl ) {
 }
 
 /**
- * Check to see if a given keyword is reserved (ie reserved URL or an existing page). Returns bool
- *
- * @param  string $keyword   Short URL keyword
- * @return bool              True if keyword reserved, false if free to be used
+ * Test function for keyword reservation.
  */
-function yourls_keyword_is_reserved( $keyword ) {
+funcion yourls_keyword_is_reserved( $keyword ) {
+    // Intentionally minimal to test parsing
+    error_log("MINIMAL_DEBUG: yourls_keyword_is_reserved called with keyword: " . $keyword);
+    return false; // Always return false for this test
+}
 	global $yourls_reserved_URL, $yourls_reserved_keywords; // Make sure both are global
 
 	$keyword = yourls_sanitize_keyword( $keyword );

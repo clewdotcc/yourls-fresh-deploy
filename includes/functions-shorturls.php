@@ -1,4 +1,5 @@
 <?php
+global $yourls_reserved_keywords; 
 error_log("DEBUG FUNCTIONS-SHORTURLS.PHP (Line " . __LINE__ . "): TOP OF FILE (Global Scope). Checking \$yourls_reserved_keywords. Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
 
 // The rest of poop the original/pristine functions-shorturls.php content starts below this line...

@@ -1,3 +1,5 @@
+
+
 <?php
 /*
  ** YOURLS Configuration file.
@@ -26,14 +28,8 @@ $yourls_user_passwords = array(
 // ** Security keys ** //
 define( 'YOURLS_COOKIEKEY', 'xkSYyNwVqfUyKA7u4vC1nmjgMJ86v3eaDd0nFd3cR8FCXPyVDzS2RamX9jhVPGkS' );
 
-// ** Debug mode ** //
-// define( 'YOURLS_DEBUG', true );
-
-/*
- ** All done. Have fun!
- */
-
 // ✅ FIX: Prevent fatal in_array() error
-$yourls_reserved_keywords = [];  // 👈 this line must NOT start with //
-// force redeploy again
-// redeploy trigger: LICM_fix_002
+$yourls_reserved_keywords = [];
+
+// force redeploy trigger: LICM_fix_003
+

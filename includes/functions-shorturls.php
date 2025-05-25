@@ -1,4 +1,10 @@
 <?php
+error_log("DEBUG FUNCTIONS-SHORTURLS.PHP (Line " . __LINE__ . "): TOP OF FILE (Global Scope). Checking \$yourls_reserved_keywords. Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
+
+// The rest of the original/pristine functions-shorturls.php content starts below this line...
+// For example, it might be:
+// if( !defined( 'YOURLS_ABSPATH' ) ) die();
+// ... etc. ...
 /*
  * Functions relative to short URLs: adding, editing, etc
  * (either proper short URLs ("http://sho.rt/abc") or "keywords" (the "abc" part)

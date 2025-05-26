@@ -9,11 +9,12 @@ RUN echo "STAGE 1 VERIFIER: Listing /app contents..." && \
     ls -la /app/ && \
     echo "STAGE 1 VERIFIER: Searching for yourls-loader.php in /app..." && \
     if [ ! -f "/app/yourls-loader.php" ]; then \
-        echo "❌ STAGE 1 ERROR: yourls-loader.php NOT FOUND!" >&2; exit 1; \
-    else echo "✅ Found yourls-loader.php"; fi && \
-    if [ ! -f "/app/config.php" ]; then \
-        echo "❌ STAGE 1 ERROR: config.php NOT FOUND in root!" >&2; exit 1; \
-    else echo "✅ Found config.php in root"; fi && \
+        echo "❌ STAGE 1 ERROR: yourls-loader.php NOT FOUND in /app!" >&2; exit 1; \
+    else echo "✅ Found yourls-loader.php in /app"; fi && \
+    echo "STAGE 1 VERIFIER: Searching for config.php in /app/user..." && \
+    if [ ! -f "/app/user/config.php" ]; then \
+        echo "❌ STAGE 1 ERROR: config.php NOT FOUND in /app/user!" >&2; exit 1; \
+    else echo "✅ Found config.php in /app/user"; fi && \
     touch /app/VERIFIED_FILES_EXIST.txt && \
     echo "✅ STAGE 1 VERIFICATION COMPLETE"
 

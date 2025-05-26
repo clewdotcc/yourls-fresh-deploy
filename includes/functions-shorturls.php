@@ -222,44 +222,26 @@ function yourls_is_shorturl( $shorturl ) {
  */
 // This is your line 223 (Ensure the '//' at the start is REMOVED if it's there)
 function yourls_keyword_is_reserved( $keyword ) {
-    // This is your line 224 (Ensure it includes both globals)
-	global $yourls_reserved_URL, $yourls_reserved_keywords;
+    global $yourls_reserved_keywords;
 
-    // --- DEBUG INSIDE FUNCTION - AFTER GLOBAL ---
-    error_log("DEBUG F-S - INSIDE yourls_keyword_is_reserved - AFTER global. Keyword: '$keyword'. \$yourls_reserved_keywords Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
-    // --- END DEBUG ---
+    $keyword_for_test = $keyword;
 
-    // Original line
-	$keyword = yourls_sanitize_keyword( $keyword );
-    // Original line
-	$reserved = false;
+    // DEBUG logs
+    error_log("YOURLS_DIAGNOSTIC: ENTER yourls_keyword_is_reserved. Keyword: '$keyword_for_test'. Type of \$yourls_reserved_keywords: " . gettype($yourls_reserved_keywords) . ". Value: " . print_r($yourls_reserved_keywords, true));
+    error_log("YOURLS_DIAGNOSTIC: SKIPPING yourls_sanitize_keyword(). Keyword used in in_array: '$keyword_for_test'");
 
-    // --- DEBUG INSIDE FUNCTION - BEFORE IN_ARRAY ---
-    error_log("DEBUG F-S - INSIDE yourls_keyword_is_reserved - BEFORE in_array. Keyword: '$keyword'. \$yourls_reserved_keywords Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
-    // --- END DEBUG ---
+    if (!is_array($yourls_reserved_keywords)) {
+        error_log("YOURLS_DIAGNOSTIC: CRITICAL - \$yourls_reserved_keywords is NOT an array! Type: " . gettype($yourls_reserved_keywords) . " | Value: " . print_r($yourls_reserved_keywords, true));
+    }
 
-	// Check a few things that would make a keyword reserved
-	// Define this array in your config.php if you want to add more words
-	// $yourls_reserved_keywords = array('stats', 'plugins', 'admin', 'info', 'versions', ... );
-    // CORRECTED: Check against $yourls_reserved_keywords
-	if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
-		$reserved = true;
-	}
-
-	// This is the rest of the original function body
-	if ( !$reserved ) {
-        // This check against $yourls_reserved_URL is fine here
-		if ( in_array( $keyword, $yourls_reserved_URL)
-			or yourls_is_page( $keyword )
-			or is_dir( YOURLS_ABSPATH ."/$keyword" )
-			or file_exists( YOURLS_ABSPATH ."/$keyword" )
-		) {
-			$reserved = true;
-		}
-	}
-
-	return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
-} // This is your line 256 (the closing brace of this function)
+    if ( in_array( $keyword_for_test, $yourls_reserved_keywords ) ) {
+        error_log("YOURLS_DIAGNOSTIC: in_array() returned TRUE");
+        return true;
+    } else {
+        error_log("YOURLS_DIAGNOSTIC: in_array() returned FALSE");
+        return false;
+    }
+}
 
 /**
  * Delete a link in the DB

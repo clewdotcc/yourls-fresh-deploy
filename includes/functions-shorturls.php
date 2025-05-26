@@ -220,19 +220,46 @@ function yourls_is_shorturl( $shorturl ) {
  * @param  string $keyword   Short URL keyword
  * @return bool              True if keyword reserved, false if free to be used
  */
+// This is your line 223 (Ensure the '//' at the start is REMOVED if it's there)
 function yourls_keyword_is_reserved( $keyword ) {
-    global $yourls_reserved_URL;
-    $keyword = yourls_sanitize_keyword( $keyword );
-    $reserved = false;
+    // This is your line 224 (Ensure it includes both globals)
+	global $yourls_reserved_URL, $yourls_reserved_keywords;
 
-    if ( in_array( $keyword, $yourls_reserved_URL)
-        or yourls_is_page($keyword)
-        or is_dir( YOURLS_ABSPATH ."/$keyword" )
-    )
-        $reserved = true;
+    // --- DEBUG INSIDE FUNCTION - AFTER GLOBAL ---
+    error_log("DEBUG F-S - INSIDE yourls_keyword_is_reserved - AFTER global. Keyword: '$keyword'. \$yourls_reserved_keywords Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
+    // --- END DEBUG ---
 
-    return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
-}
+    // Original line
+	$keyword = yourls_sanitize_keyword( $keyword );
+    // Original line
+	$reserved = false;
+
+    // --- DEBUG INSIDE FUNCTION - BEFORE IN_ARRAY ---
+    error_log("DEBUG F-S - INSIDE yourls_keyword_is_reserved - BEFORE in_array. Keyword: '$keyword'. \$yourls_reserved_keywords Value: " . (isset($yourls_reserved_keywords) ? print_r($yourls_reserved_keywords, true) : 'NOT SET') . ". Type: " . (isset($yourls_reserved_keywords) ? gettype($yourls_reserved_keywords) : 'N/A'));
+    // --- END DEBUG ---
+
+	// Check a few things that would make a keyword reserved
+	// Define this array in your config.php if you want to add more words
+	// $yourls_reserved_keywords = array('stats', 'plugins', 'admin', 'info', 'versions', ... );
+    // CORRECTED: Check against $yourls_reserved_keywords
+	if ( in_array( $keyword, $yourls_reserved_keywords ) ) {
+		$reserved = true;
+	}
+
+	// This is the rest of the original function body
+	if ( !$reserved ) {
+        // This check against $yourls_reserved_URL is fine here
+		if ( in_array( $keyword, $yourls_reserved_URL)
+			or yourls_is_page( $keyword )
+			or is_dir( YOURLS_ABSPATH ."/$keyword" )
+			or file_exists( YOURLS_ABSPATH ."/$keyword" )
+		) {
+			$reserved = true;
+		}
+	}
+
+	return yourls_apply_filter( 'keyword_is_reserved', $reserved, $keyword );
+} // This is your line 256 (the closing brace of this function)
 
 /**
  * Delete a link in the DB
